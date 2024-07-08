@@ -7,10 +7,9 @@ import numpy as np
 
 # 音频输入处理~
 
-filename = "D:\\Storage\\projects\\$我的$\\Surfin'\\Surfin' 4.wav"
+filename = "audio.wav"
 w, h = 1800, 900  # 窗口大小
 rate = 20  # 单次采样长度
-
 
 samplerate, wav_data = wavfile.read(filename)
 
@@ -34,22 +33,6 @@ def get_chopped(chop_start_time: float = 0):  # 毫秒
         chop = np.pad(chop, (0, overread_samples), mode="constant")
 
     return chop
-
-
-# Resample!
-def downsample(chop, new_samplerate):
-    duration = len(chop) * samplerate
-
-    # 为新音频创建采样时间戳
-    time_old = np.linspace(0, duration / samplerate, duration)
-
-    num_downsampled_points = int(duration * new_samplerate / samplerate)
-    time_new = np.linspace(0, duration / samplerate, num_downsampled_points)
-
-    # 插值
-    interpolator = interpolate.interp1d(time_old, chop)
-    downsampled = interpolator(time_new)
-    return downsampled
 
 
 # 可视化频域图
@@ -81,15 +64,10 @@ while running:
     # 将FFT系数转换为频率
     frequencies = abs(fft_data) * (1 / samplerate)
     frequencies = frequencies[:max_freq]
-    # frequencies0 = downsample(frequencies, w)
 
     for i in range(0, max_freq - 1):
         j = w * i / max_freq
         pygame.draw.line(screen, (255, 255, 255), (j, h - frequencies[i]), (j, h - frequencies[i + 1]))
 
-
-
     pygame.display.flip()
     total_time += clock.tick(60)  # 60fps
-
-pygame.quit()
