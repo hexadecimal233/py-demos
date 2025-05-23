@@ -1,0 +1,15 @@
+[project]
+name = "py-demos"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "Hexzii", email = "me@onlyra1n.top"},
+]
+dependencies = ["pygame>=2.6.1", "numpy>=2.2.6"]
+requires-python = "==3.10.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = false
